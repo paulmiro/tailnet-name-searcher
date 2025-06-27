@@ -28,7 +28,13 @@ def main():
     while amount_checked < amount:
         offers = get_offers(cookie)
         for offer in offers:
-            if amount_checked % 10 == 0 and amount_checked != 0:
+            if amount_checked % 10 == 0 and amount_checked != 0 and VERBOSE:
+                print("checked " + str(amount_checked) + " offers")
+            if (
+                amount_checked % 100 == 0
+                and amount_checked != 0
+                and not VERBOSE
+            ):
                 print("checked " + str(amount_checked) + " offers")
             if check_offer(offer, regex):
                 print("matched offer: ", offer["tcd"])
