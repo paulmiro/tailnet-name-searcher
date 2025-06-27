@@ -38,8 +38,7 @@ def main():
                 print("checked " + str(amount_checked) + " offers")
             if check_offer(offer, regex):
                 print("matched offer: ", offer["tcd"])
-                if VERBOSE:
-                    print("token: " + offer["token"])
+                print("token: " + offer["token"])
                 if input("accept offer? [y/n] ") == "y":
                     accept_offer(offer, cookie)
                     exit(0)
@@ -61,8 +60,6 @@ def get_offers(cookie: str) -> list[Offer]:
 
 def check_offer(offer: Offer, regex: re.Pattern) -> bool:
     if re.search(regex, offer["tcd"]):
-        if VERBOSE:
-            print("matched offer token: ", offer["token"])
         return True
     return False
 
