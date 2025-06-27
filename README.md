@@ -39,7 +39,7 @@ This program will automatically extract your auth cookie from the cUrl file. If 
 No need to install anything. You can just run the program with
 
 ```sh
-nix run github:paulmiro/tailscale_name_searcher <arguments>
+nix run github:paulmiro/tailscale_name_searcher -- <arguments>
 ```
 
 ### Whithout Nix
