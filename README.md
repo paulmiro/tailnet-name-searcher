@@ -27,6 +27,7 @@ I have included a (probably almost exhaustive) wordlist for both the first and s
   -f, --words-file WORDS_FILE   words file path (newline-separated)
   -r, --regex REGEX             regex string
   -n, --amount AMOUNT           amount of offers to check
+  -k, --keep-going              keep going after finding a match and only log tokens
   -v, --verbose                 verbose output
 ```
 

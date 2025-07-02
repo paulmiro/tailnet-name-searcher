@@ -14,7 +14,7 @@ class Offer(TypedDict):
 
 def main():
     print()
-    (cookie, regex, amount) = parse_args()
+    (cookie, regex, amount, keep_going) = parse_args()
 
     print("logged in as user: " + get_current_user(cookie))
     print("current tailnet name: " + get_current_tcd(cookie))
@@ -26,20 +26,33 @@ def main():
     while amount_checked < amount:
         offers = get_offers(cookie)
         for offer in offers:
-            if amount_checked % 10 == 0 and amount_checked != 0 and VERBOSE:
-                print("checked " + str(amount_checked) + " offers")
-            if (
-                amount_checked % 100 == 0
-                and amount_checked != 0
-                and not VERBOSE
-            ):
-                print("checked " + str(amount_checked) + " offers")
-            if check_offer(offer, regex):
-                print("matched offer: ", offer["tcd"])
-                print("token: " + offer["token"])
-                if input("accept offer? [y/n] ") == "y":
-                    accept_offer(offer, cookie)
-                    exit(0)
+            if keep_going:
+                if check_offer(offer, regex):
+                    print(
+                        "matched offer #"
+                        + str(amount_checked + 1)
+                        + ": "
+                        + offer["token"],
+                    )
+            else:
+                if (
+                    amount_checked % 10 == 0
+                    and amount_checked != 0
+                    and VERBOSE
+                ):
+                    print("checked " + str(amount_checked) + " offers")
+                if (
+                    amount_checked % 100 == 0
+                    and amount_checked != 0
+                    and not VERBOSE
+                ):
+                    print("checked " + str(amount_checked) + " offers")
+                if check_offer(offer, regex):
+                    print("matched offer: ", offer["tcd"])
+                    print("token: " + offer["token"])
+                    if input("accept offer? [y/n] ") == "y":
+                        accept_offer(offer, cookie)
+                        exit(0)
             amount_checked += 1
     exit(0)
 
@@ -143,6 +156,13 @@ def parse_args() -> tuple[str, re.Pattern]:
     )
 
     parser.add_argument(
+        "-k",
+        "--keep-going",
+        action="store_true",
+        help="keep going after finding a match and only log tokens",
+    )
+
+    parser.add_argument(
         "-v", "--verbose", action="store_true", help="verbose output"
     )
     args = parser.parse_args()
@@ -192,14 +212,18 @@ def parse_args() -> tuple[str, re.Pattern]:
 
     amount = args.amount
 
+    if args.keep_going:
+        keep_going = True
+
     if VERBOSE:
         print("cookie: ", cookie)
         print("words: ", words)
         print("regex: ", regex.pattern)
-        print("amount: ", args.amount)
+        print("amount: ", amount)
+        print("keep going: ", keep_going)
         print()
 
-    return (cookie, regex, amount)
+    return (cookie, regex, amount, keep_going)
 
 
 if __name__ == "__main__":
