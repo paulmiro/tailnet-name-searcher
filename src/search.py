@@ -13,14 +13,12 @@ class Offer(TypedDict):
 
 
 def main():
+    print()
     (cookie, regex, amount) = parse_args()
 
     print("logged in as user: " + get_current_user(cookie))
     print("current tailnet name: " + get_current_tcd(cookie))
     print()
-    if VERBOSE:
-        print("using regex: ", regex.pattern)
-        print()
     print("starting search... (press ctrl+c to stop)")
     print()
 
@@ -76,8 +74,8 @@ def accept_offer(offer: Offer, cookie: str) -> None:
         json=offer,
     )
     if res.json()["status"] != "success":
-        exit("ERROR: failed to get offers: status is not 'success'")
-    print(res.json())
+        exit("ERROR: failed to accept offer: status is not 'success'")
+    print("success!")
 
 
 def get_current_user(cookie: str) -> str:
@@ -199,6 +197,7 @@ def parse_args() -> tuple[str, re.Pattern]:
         print("words: ", words)
         print("regex: ", regex.pattern)
         print("amount: ", args.amount)
+        print()
 
     return (cookie, regex, amount)
 

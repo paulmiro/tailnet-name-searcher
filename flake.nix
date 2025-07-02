@@ -21,10 +21,24 @@
         ];
       in
       {
-        packages = {
-          default = pkgs.writers.writePython3Bin "tailnet-name-searcher" {
+        packages = rec {
+          default = search;
+          search = pkgs.writers.writePython3Bin "tailnet-name-searcher" {
             libraries = py3libs;
-          } (builtins.readFile ./main.py);
+            flakeIgnore = [
+              # ignore some formatting warnings
+              "E501"
+              "W503"
+            ];
+          } (builtins.readFile ./src/search.py);
+          accept = pkgs.writers.writePython3Bin "tailnet-name-accept" {
+            libraries = py3libs;
+            flakeIgnore = [
+              # ignore some formatting warnings
+              "E501"
+              "W503"
+            ];
+          } (builtins.readFile ./src/accept.py);
         };
 
         devShells = {

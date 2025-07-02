@@ -32,6 +32,10 @@ I have included a (probably almost exhaustive) wordlist for both the first and s
 
 This program will automatically extract your auth cookie from the cUrl file. If you want, you can also specify a file that contains only the cookie with `--cookie-file` instead of `--curl-file`
 
+You don't have to accept the offer immediately. They stay valid even if you reroll again. (I'm not sure for how long though)
+
+I included a second script that takes the full token as the first argument and accepts the offer for you (src/accept.py).
+
 ### Installation
 
 ### With Nix
@@ -47,5 +51,5 @@ nix run github:paulmiro/tailscale_name_searcher -- <arguments>
 Make sure you have python 3 and `requests` installed
 
 ```sh
-python main.py <arguments>
+python src/main.py <arguments>
 ```
